@@ -1,0 +1,5 @@
+{
+    "C": 1.0,
+    "solver": "liblinear",
+    "max_iter": 100
+}
