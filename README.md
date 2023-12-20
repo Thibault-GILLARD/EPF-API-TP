@@ -154,6 +154,10 @@ Don't forget to add me to the repo with the following email address: clement.let
 
 - **Step 15: Update and add Firestore parameters:** Add endpoints to update or add parameters in Firestore.
 
+Faire 21
+peut etre 19  si on y arrive 
+docstring (pep8)
+
 ### Evaluation requirements
 
 The evaluation criteria will be as follows:
