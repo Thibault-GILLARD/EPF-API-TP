@@ -30,3 +30,13 @@ def train_model(test_size):
 
     except Exception as e:
         return {"error": f"Error training model: {e}"}
+
+def predict_flower(SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm):
+    try:
+        model = joblib.load('src/data/trained_model.pkl')
+        prediction = model.predict([[SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm]])
+        return {"prediction": prediction[0]}
+
+    except Exception as e:
+        return {"error": f"Error predicting flower: {e}"}
+    
