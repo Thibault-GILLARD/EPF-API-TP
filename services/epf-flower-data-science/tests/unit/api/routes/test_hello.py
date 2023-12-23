@@ -1,7 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
 
-
 class TestHelloRoute:
     @pytest.fixture
     def client(self) -> TestClient:

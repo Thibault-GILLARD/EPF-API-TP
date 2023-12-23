@@ -2,34 +2,28 @@ import joblib
 import pandas as pd
 from src.services.data import split_dataset  # Importing the split_dataset function
 from google.cloud import firestore
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from src.services.utils import FirestoreClient
+from fastapi import FastAPI
 
-class FirestoreClient:
-    """Wrapper around a database"""
+app = FastAPI()
+firestore_client = FirestoreClient()  # Initialize your Firestore client
 
-    client: firestore.Client
+def update_parameters(document_id: str, new_parameters: dict):
+    try:
+        firestore_client.update("parameters", document_id, new_parameters)
+        return {"message": "Parameters updated successfully"}
+    except Exception as e:
+        return {"error": f"Error updating parameters: {e}"}
 
-    def __init__(self) -> None:
-        """Init the client."""
-        self.client = firestore.Client.from_service_account_json('path/to/your/api-5a-firebase-adminsdk-g30qh-dd4ca83ef5.json')
+def add_parameters(parameters: dict):
+    try:
+        firestore_client.add("parameters", parameters)
+        return {"message": "Parameters added successfully"}
+    except Exception as e:
+        return {"error": f"Error adding parameters: {e}"}
 
-    def get(self, collection_name: str, document_id: str) -> dict:
-        """Find one document by ID.
-        Args:
-            collection_name: The collection name
-            document_id: The document id
-        Return:
-            Document value.
-        """
-        doc_ref = self.client.collection(collection_name).document(document_id)
-        doc = doc_ref.get()
-        if doc.exists:
-            return doc.to_dict()
-        raise FileExistsError(
-            f"No document found at {collection_name} with the id {document_id}"
-        )
-
-def train_model(test_size):
+def train_model_fireparam(test_size):
     try:
         dataset = pd.read_csv('src/data/Iris.csv')
 
@@ -38,7 +32,7 @@ def train_model(test_size):
 
         X_train, X_test, y_train, y_test = split_dataset(test_size)
 
-        model = LogisticRegression(**model_params)  
+        model = RandomForestClassifier(**model_params) 
 
         model.fit(X_train, y_train)  
 
@@ -49,7 +43,7 @@ def train_model(test_size):
     except Exception as e:
         return {"error": f"Error training model: {e}"}
 
-def predict_flower(SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm):
+def predict_flower_fireparam(SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm):
     try:
         model = joblib.load('src/data/trained_model_fireparam.pkl')
         prediction = model.predict([[SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm]])
