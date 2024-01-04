@@ -5,6 +5,14 @@ import pandas as pd
 from src.services.data import split_dataset  # Importing the split_dataset function
 
 def train_model(test_size):
+    """Train and save a Logistic Regression model.
+
+    Args:
+        test_size (float): The ratio of test set to the whole dataset.
+
+    Returns:
+        dict: A dictionary containing the status of the training process or an error message.
+    """
     try:
         # Load dataset
         dataset = pd.read_csv('src/data/Iris.csv')
@@ -32,6 +40,17 @@ def train_model(test_size):
         return {"error": f"Error training model: {e}"}
 
 def predict_flower(SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm):
+    """Predict the flower species using the trained model.
+
+    Args:
+        SepalLengthCm (float): Length of sepal in centimeters.
+        SepalWidthCm (float): Width of sepal in centimeters.
+        PetalLengthCm (float): Length of petal in centimeters.
+        PetalWidthCm (float): Width of petal in centimeters.
+
+    Returns:
+        dict: A dictionary containing the predicted flower species or an error message.
+    """
     try:
         model = joblib.load('src/data/trained_model.pkl')
         prediction = model.predict([[SepalLengthCm, SepalWidthCm, PetalLengthCm, PetalWidthCm]])

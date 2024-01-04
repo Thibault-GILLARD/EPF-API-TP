@@ -12,19 +12,12 @@ def download_iris_dataset():
 
     return {"status": "Dataset downloaded successfully"}
 
-def load_iris_dataset():
+def load_iris_dataset_():
     try:
         dataset = pd.read_csv('src/data/Iris.csv')
         return dataset
     except Exception as e:
         return {"error": f"Error loading dataset: {e}"}
-    
-def new_load_iris_dataset():
-    try:
-        dataset = pd.read_csv('src/data/Iris.csv')
-        return dataset
-    except Exception as e:
-        return {"error": f"Error processing dataset: {e}"}
     
 def process_iris_dataset():
     try:
