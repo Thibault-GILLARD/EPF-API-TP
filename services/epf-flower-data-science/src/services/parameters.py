@@ -23,12 +23,12 @@ def add_parameters(parameters: dict):
     except Exception as e:
         return {"error": f"Error adding parameters: {e}"}
 
-def train_model_fireparam(test_size):
+def train_model_fireparam(test_size, document_id: str):
     try:
         dataset = pd.read_csv('src/data/Iris.csv')
 
         firestore_client = FirestoreClient()
-        model_params = firestore_client.get('parameters', '42iGjY3IdVqGug0uNkO5')  # Get parameters from Firestore
+        model_params = firestore_client.get('parameters', document_id)
 
         X_train, X_test, y_train, y_test = split_dataset(test_size)
 

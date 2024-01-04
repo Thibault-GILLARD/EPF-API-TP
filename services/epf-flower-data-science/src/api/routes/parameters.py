@@ -19,8 +19,8 @@ async def update_parameters_route(document_id: str, new_parameters: dict):
     return result
 
 @router.get("/train-model-fireparam")
-def train_model_route(test_size: float = 0.2):
-    result = train_model_fireparam(test_size)
+def train_model_route(test_size: float = 0.2, document_id: str = '42iGjY3IdVqGug0uNkO5'):
+    result = train_model_fireparam(test_size, document_id)
     if "error" in result:
         raise HTTPException(status_code=404, detail=result["error"])
     return result
