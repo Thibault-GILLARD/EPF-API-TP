@@ -11,3 +11,4 @@ def test_firestore_client():
         assert result is not None  # Check if the result is not None
     except Exception as e:
         pytest.fail(f"Error: {e}")
+        
